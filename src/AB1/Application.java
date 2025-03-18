@@ -27,6 +27,11 @@ public class Application {
         lp.flush();
 
         // TODO: implementation of any developer specific tests (optional)
+        System.out.println();
+        lp.printString("!azllo World!");
+        lp.printCharacter('a');
+        lp.flush();
+
 
     }
 }

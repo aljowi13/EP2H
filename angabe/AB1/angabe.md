@@ -134,7 +134,7 @@ Beantworten Sie nun nachfolgende Fragen gewissenhaft. Lesen Sie bei Bedarf dazu 
 
 
 * Frage 2: Welche der folgenden Aussagen stimmen in Bezug auf Datenabstraktion?
-- [x] Datenkapselung und Data-Hiding sind für Datenabstraktion hilfreich aber nicht zwingend nötig.
+- [ ] Datenkapselung und Data-Hiding sind für Datenabstraktion hilfreich aber nicht zwingend nötig.
 - [ ] Datenabstraktion verhindert Änderungen von Objektzuständen.
 
 ### Teilaufgabe 2
