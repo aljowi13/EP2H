@@ -9,6 +9,7 @@ import AB1.Interfaces.Encoder;
  */
 public class BrailleFont implements AB1.Interfaces.Font {
 
+    //default height and weight for braille characters
     private static final int defaultHeight = 3;
     private static final int defaultWidth = 2;
 
@@ -52,32 +53,29 @@ public class BrailleFont implements AB1.Interfaces.Font {
     // DONE: choose appropriate access modifier (public/private)
     public BrailleFont(int height, int width, char dotSymbol, char spaceSymbol, Encoder encoder) {
         // DONE: implementation
-        this.height = height;
-        this.width = width;
-        this.lowerCaseLetters = new char[26][height][width];
-        this.whiteSpace  = new char[height][width];
+        this.height = height > 0 ? height : defaultHeight;
+        this.width = width > 0 ? width : defaultWidth;
+        this.lowerCaseLetters = new char[26][this.height][this.width];
+        this.whiteSpace  = new char[this.height][this.width];
 
         for (int i = 0; i <= 'z' - 'a'; i++) {
             char charToTranslate = (char) ('a' + i);
             byte brailleByte = encoder.toBinary(charToTranslate);
 
-            for (int j = 0; j < height; j++) {
-                for (int k = 0; k < width; k++) {
+            for (int j = 0; j < this.height; j++) {
+                for (int k = 0; k < this.width; k++) {
                     if (j < defaultHeight && k < defaultWidth) {
                         lowerCaseLetters[i][j][k] = ((brailleByte >> j + (k * defaultHeight)) & 1) == 1 ? dotSymbol : spaceSymbol;
                     } else lowerCaseLetters[i][j][k] = spaceSymbol;
                 }
             }
-
         }
 
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
                 whiteSpace[i][j] = spaceSymbol;
             }
         }
-
 
     }
 
@@ -94,7 +92,9 @@ public class BrailleFont implements AB1.Interfaces.Font {
     @Override
     public char[][] getBitmap(char character) {
         // DONE: implementation
-        if (Character.isLetter(character)) {
+        if (character >= 'a' && character <= 'z') {
+            return lowerCaseLetters[character - 'a'];
+        } else if (character >= 'A' && character <= 'Z') {
             return lowerCaseLetters[Character.toLowerCase(character) - 'a'];
         } else return whiteSpace;
     }
