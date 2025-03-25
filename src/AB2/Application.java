@@ -54,5 +54,19 @@ public class Application {
 
         // TODO: implementation of any developer specific tests (optional)
 
+        lp.printCharacter(' ');
+        lp.flush();
+        lp.clearLine();
+        lp.printString("abc");
+        lp.insertCharacter(3, ' ');
+        lp.deleteCharacter(4);
+        lp.flush();
+        lp.printCharacter('a');
+        lp.printString("bc");
+        lp.flush();
+        lp.printString("abc");
+        lp.setSpacing(0);
+        lp.flush();
+
     }
 }

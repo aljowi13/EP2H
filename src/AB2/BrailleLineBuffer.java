@@ -36,7 +36,7 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     public BrailleLineBuffer(int initialSize, double growthFactor, double reductionRatio) {
         // TODO: implementation
-        this.initialSize = initialSize;
+        this.initialSize = initialSize > 0 ? initialSize : 3; //missing precondition, so I check myself
         this.growthFactor = growthFactor;
         this.reductionRatio = reductionRatio;
         clearBuffer();
@@ -112,6 +112,11 @@ public class BrailleLineBuffer implements LineBuffer {
         }
     }
 
+    /**
+     * Method resizes the buffer to the newSize.
+     *
+     * @param newSize new size of the buffer. Can be higher or lower than current size.
+     */
     private void resizeBuffer(int newSize) {
         char[][][] newBuffer = new char[newSize][][];
         System.arraycopy(buffer, 0, newBuffer, 0, count());
