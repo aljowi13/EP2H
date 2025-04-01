@@ -145,20 +145,6 @@ public class BrailleListBuffer implements ListBuffer {
                     }
                 }
 
-
-//                for (int i = 0; i < numberOfLines; i++) {
-//                    for (int j = 0; j < size(); j++) {
-//                        char[][] bitmap = list.get(j).getBitmap();
-//                        for (int k = 0; k < bitmap[i].length; k++) {
-//                            sb.append(bitmap[i][k]);
-//                        }
-//                        if (j < size() - 1) {
-//                            sb.append(" ".repeat(spacing));
-//                        }
-//                    }
-//                    result[i] = sb.toString();
-//                    sb.setLength(0);
-//                }
             }
         }
         return result;
