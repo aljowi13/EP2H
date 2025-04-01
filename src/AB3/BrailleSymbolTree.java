@@ -12,6 +12,7 @@ import AB3.Provided.TreeNode;
 public class BrailleSymbolTree implements Tree {
     private TreeNode root;
     private BrailleEncoder encoder = null;
+    private final byte whiteSpaceByte = 0b000000;
 
 
     /**
@@ -23,6 +24,13 @@ public class BrailleSymbolTree implements Tree {
      */
     public BrailleSymbolTree(BrailleEncoder encoder) {
         // TODO: implementation
+        this.encoder = encoder;
+        root = new TreeNode();
+        addNode(' ');
+        for (char c = 'a'; c <= 'z' ; c++) {
+            addNode(c);
+        }
+
     }
 
     /**
@@ -42,6 +50,29 @@ public class BrailleSymbolTree implements Tree {
     @Override
     public void addNode(char asciiCharacter) {
         // TODO: implementation
+        byte characterByte = asciiCharacter == ' ' ? whiteSpaceByte : encoder.toBinary(asciiCharacter);
+        TreeNode currentNode = root;
+        TreeNode nextNode;
+
+        for (int i = 0; i < 6; i++) {
+            if ((characterByte & (1 << i)) == 0) {
+                nextNode = currentNode.getLeft();
+                if (nextNode == null) {
+                    nextNode = new TreeNode();
+                    if (i == 5) nextNode.setSymbol(asciiCharacter);
+                    currentNode.setLeft(nextNode);
+                }
+            }
+            else {
+                nextNode = currentNode.getRight();
+                if (nextNode == null) {
+                    nextNode = new TreeNode();
+                    if (i == 5) nextNode.setSymbol(asciiCharacter);
+                    currentNode.setRight(nextNode);
+                }
+            }
+            currentNode = nextNode;
+        }
     }
 
 
@@ -60,6 +91,17 @@ public class BrailleSymbolTree implements Tree {
     @Override
     public TreeNode getNode(byte encoded){
         // TODO: implementation
+        TreeNode currentNode = root;
+        TreeNode nextNode;
+
+        for (int i = 0; i < 7; i++) {
+            nextNode = (encoded & (1 << i)) == 0 ? currentNode.getLeft() : currentNode.getRight();
+            if (nextNode == null) {
+                if (currentNode.getSymbol() == 0) return null;
+                else return currentNode;
+            }
+            currentNode = nextNode;
+        }
         return null;
     }
 

@@ -25,6 +25,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     BrailleListBuffer(List list) {  // Hint: pass your BrailleLinkedList to this constructor
         // TODO: implementation
+        this.list = list;
     }
 
     /**
@@ -35,7 +36,7 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public int size() {
         // TODO: implementation
-        return 0;
+        return list.size();
     }
 
     /**
@@ -48,6 +49,7 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public void push(char[][] bitmap) {
         // TODO: implementation
+        list.addLast(new ListNode(bitmap));
     }
 
     /**
@@ -60,7 +62,9 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public char[][] pop() {
         // TODO: implementation
-        return null;
+        ListNode last = list.removeLast();
+        if (last == null) return null;
+        return last.getBitmap();
     }
 
     /**
@@ -74,6 +78,8 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public void insert(int position, char[][] bitmap) {
         // TODO: implementation
+        if (bitmap == null) return;
+        list.insert(new ListNode(bitmap), position);
     }
 
     /**
@@ -88,7 +94,8 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public char[][] delete(int position) {
         // TODO: implementation
-        return null;
+        if (position < 0 || position >= list.size()) return null;
+        return list.remove(position).getBitmap();
     }
 
     /**
@@ -100,6 +107,7 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public void clearBuffer() {
         // TODO: implementation
+        list.clear();
     }
 
     /**
@@ -115,6 +123,44 @@ public class BrailleListBuffer implements ListBuffer {
     @Override
     public String[] renderScanlines(int spacing) {
         // TODO: implementation
-        return null;
+        String[] result = null;
+
+        if (size() > 0) {
+            int numberOfLines = list.getFirst().getBitmap().length;
+            if (numberOfLines > 0) {
+
+                StringBuilder sb = new StringBuilder();
+                result = new String[numberOfLines];
+                for (int i = 0; i < numberOfLines; i++) {
+                    result[i] = "";
+                }
+
+                for (int i = 0; i < size(); i++) {
+                    char[][] bitmap = list.get(i).getBitmap();
+                    for (int j = 0; j < bitmap.length; j++) {
+                        for (int k = 0; k < bitmap[j].length; k++) {
+                            result[j] += bitmap[j][k];
+                        }
+                        if (i < size() - 1) result[j] += " ".repeat(spacing);
+                    }
+                }
+
+
+//                for (int i = 0; i < numberOfLines; i++) {
+//                    for (int j = 0; j < size(); j++) {
+//                        char[][] bitmap = list.get(j).getBitmap();
+//                        for (int k = 0; k < bitmap[i].length; k++) {
+//                            sb.append(bitmap[i][k]);
+//                        }
+//                        if (j < size() - 1) {
+//                            sb.append(" ".repeat(spacing));
+//                        }
+//                    }
+//                    result[i] = sb.toString();
+//                    sb.setLength(0);
+//                }
+            }
+        }
+        return result;
     }
 }

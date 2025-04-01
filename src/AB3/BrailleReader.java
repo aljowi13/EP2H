@@ -17,6 +17,7 @@ public class BrailleReader {
      */
     public BrailleReader(Decoder decoder){ // Hint: pass your BrailleDecoder to this constructor
         // TODO: implementation
+        this.decoder = decoder;
     }
 
     /**
@@ -31,7 +32,18 @@ public class BrailleReader {
      */
     private char[][] getBrailleChar(int position, int spacing, String[] brailleLine){
         // TODO: implementation
-        return null;
+        if (brailleLine == null || brailleLine.length != HEIGHT) return null;
+
+        int index = position * (WIDTH + spacing);
+        if (index < 0 || index + WIDTH > brailleLine[0].length()) return null;
+
+        char[][] bitmap = new char[HEIGHT][WIDTH];
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                bitmap[j][i] = brailleLine[j].charAt(index + i);
+            }
+        }
+        return bitmap;
     }
 
     /**
@@ -45,6 +57,15 @@ public class BrailleReader {
      */
     public String translate(String[] brailleLine, char dotSymbol, int spacing){
         // TODO: implementation
-        return "";
+        StringBuilder result = new StringBuilder();
+
+        if (brailleLine == null || brailleLine.length != HEIGHT) return "";
+
+        int count = (brailleLine[0].length() + spacing) / (WIDTH + spacing);
+        for (int i = 0; i < count; i++) {
+            result.append(decoder.decodeBitmap(getBrailleChar(i, spacing, brailleLine), dotSymbol));
+        }
+
+        return result.toString();
     }
 }

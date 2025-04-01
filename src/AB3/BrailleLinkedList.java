@@ -16,13 +16,16 @@ public class BrailleLinkedList implements List {
     private ListNode tail;
 
     // TODO: (optional) variable declarations
-
+    private int size;
 
     /**
      * Constructor initializes an empty BrailleLinkedList.
      */
     public BrailleLinkedList() {
         // TODO: implementation
+        size = 0;
+        head = null;
+        tail = null;
     }
 
     /**
@@ -33,7 +36,7 @@ public class BrailleLinkedList implements List {
     @Override
     public int size() {
         // TODO: implementation
-        return 0;
+        return size;
     }
 
     /**
@@ -47,6 +50,12 @@ public class BrailleLinkedList implements List {
     @Override
     public void addFirst(ListNode newNode) {
         // TODO: implementation
+        if (newNode == null) return;
+
+        newNode.setNext(head);
+        head = newNode;
+        if (size == 0) tail = newNode;
+        size++;
     }
 
     /**
@@ -58,7 +67,9 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode getFirst() {
         // TODO: implementation
-        return null;
+        ListNode result = null;
+        if (size > 0) result = head;
+        return result;
     }
 
     /**
@@ -73,7 +84,14 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode removeFirst() {
         // TODO: implementation
-        return null;
+        ListNode result = null;
+        if (size > 0) {
+            result = head;
+            head = head.getNext();
+            size--;
+            if (size == 0) head = tail = null;
+        }
+        return result;
     }
 
     /**
@@ -87,6 +105,14 @@ public class BrailleLinkedList implements List {
     @Override
     public void addLast(ListNode newNode) {
         // TODO: implementation
+        if (newNode == null) return;
+        if (size > 0) {
+            tail.setNext(newNode);
+            tail = newNode;
+        } else {
+            head = tail = newNode;
+        }
+        size++;
     }
 
     /**
@@ -98,7 +124,9 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode getLast() {
         // TODO: implementation
-        return null;
+        ListNode result = null;
+        if (size > 0) result = tail;
+        return result;
     }
 
     /**
@@ -113,7 +141,20 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode removeLast() {
         // TODO: implementation
-        return null;
+        ListNode result = null;
+        if (size > 0) {
+            result = tail;
+            if (size == 1) head = tail = null;
+            else if (size == 2) {
+                head.setNext(null);
+                tail = head;
+            } else {
+                tail = get(size - 2);
+                tail.setNext(null);
+            }
+            size--;
+        }
+        return result;
     }
 
     /**
@@ -127,7 +168,14 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode get(int index) {
         // TODO: implementation
-        return null;
+        ListNode result = head;
+
+        if (index < 0 || index >= size) return null;
+
+        for (int i = 0; i < index; i++) {
+            result = result.getNext();
+        }
+        return result;
     }
 
     /**
@@ -145,6 +193,14 @@ public class BrailleLinkedList implements List {
     @Override
     public void insert(ListNode newNode, int index) {
         // TODO: implementation
+        if (index <= 0) addFirst(newNode);
+        else if (index >= size) addLast(newNode);
+        else {
+            ListNode nodeBefore = get(index - 1);
+            newNode.setNext(get(index));
+            nodeBefore.setNext(newNode);
+            size++;
+        }
     }
 
 
@@ -162,7 +218,14 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode remove(int index) {
         // TODO: implementation
-        return null;
+        if (index <= 0) return removeFirst();
+        if (index >= size - 1) return removeLast();
+
+        ListNode nodeBefore = get(index - 1);
+        ListNode result = get(index);
+        nodeBefore.setNext(result.getNext());
+        size--;
+        return result;
     }
 
     /**
@@ -174,6 +237,8 @@ public class BrailleLinkedList implements List {
     @Override
     public void clear() {
         // TODO: implementation
+        head = tail = null;
+        size = 0;
     }
 
     /**
