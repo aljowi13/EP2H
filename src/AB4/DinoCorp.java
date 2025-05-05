@@ -23,7 +23,6 @@ public class DinoCorp {
 
     // TODO: variable declarations
     private int activeFactory = -1;
-    private String[] productionOrders;
     private int currOrder;
 
     /**
@@ -84,7 +83,7 @@ public class DinoCorp {
      */
     public void setOrders(String[] productionOrders){
         // TODO: implementation
-        this.productionOrders = productionOrders;
+        orders = productionOrders;
         currOrder = 0;
     }
 
@@ -106,8 +105,8 @@ public class DinoCorp {
      */
     public boolean processNextOrder(){
         // TODO: implementation
-        if (currOrder >= productionOrders.length || productionOrders[currOrder].isEmpty()) return false;
-        String order = productionOrders[currOrder];
+        if (currOrder >= orders.length || orders[currOrder].isEmpty()) return false;
+        String order = orders[currOrder];
         currOrder++;
         if (order.charAt(0) == '#') {
             return activateFactory(order.substring(1));
