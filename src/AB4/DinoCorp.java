@@ -22,6 +22,9 @@ public class DinoCorp {
     private AbstractTreeNode population;
 
     // TODO: variable declarations
+    private int activeFactory = -1;
+    private String[] productionOrders;
+    private int currOrder;
 
     /**
      * Constructor for the DinoCorp class that initializes the corporation's
@@ -33,6 +36,8 @@ public class DinoCorp {
      */
     DinoCorp(AbstractTreeNode initialPopulation){
         // TODO: implementation
+        population = initialPopulation;
+
     }
 
     /**
@@ -44,7 +49,14 @@ public class DinoCorp {
      */
     public int registerFactory(AbstractDinosaurFactory dinoFactory, String name){
         // TODO: implementation
-        return 0;
+        for (int i = 0; i < MAX_FACTORIES; i++) {
+            if (factories[i] == null) {
+                factories[i] = dinoFactory;
+                factoryNames[i] = name;
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -55,6 +67,12 @@ public class DinoCorp {
      */
     private boolean activateFactory(String factoryName){
         // TODO: implementation
+        for (int i = 0; i < MAX_FACTORIES; i++) {
+            if (factoryNames[i].equals(factoryName)) {
+                activeFactory = i;
+                return true;
+            }
+        }
         return false;
     }
 
@@ -66,6 +84,8 @@ public class DinoCorp {
      */
     public void setOrders(String[] productionOrders){
         // TODO: implementation
+        this.productionOrders = productionOrders;
+        currOrder = 0;
     }
 
     /**
@@ -86,6 +106,26 @@ public class DinoCorp {
      */
     public boolean processNextOrder(){
         // TODO: implementation
+        if (currOrder >= productionOrders.length) return false;
+        String order = productionOrders[currOrder];
+        currOrder++;
+        if (order.charAt(0) == '#') {
+            return activateFactory(order.substring(1));
+        }
+        else if (activeFactory >= 0){
+            int index = -1;
+            for (int i = 0; i < order.length(); i++) {
+                if (order.charAt(i) == '!') {
+                    if (index < 0) index = i;
+                    else return false;
+                }
+            }
+            String name = order.substring(0, index);
+            int dna = Integer.parseInt(order.substring(index + 1));
+            population = population.store(factories[activeFactory].create(dna, name));
+            return true;
+        }
+
         return false;
     }
 
@@ -96,6 +136,11 @@ public class DinoCorp {
      */
     public void feed(Dinosaur.Food food){
         // TODO: implementation
+        Dinosaur[] dinos = population.flatten();
+
+        for (int i = 0; i < dinos.length; i++) {
+            dinos[i].feed(food);
+        }
     }
 
     /**
@@ -106,7 +151,14 @@ public class DinoCorp {
      */
     public int countAnimalsByMood(Dinosaur.Happiness mood){
         // TODO: implementation
-        return 0;
+        int count = 0;
+        Dinosaur[] dinos = population.flatten();
+
+        for (int i = 0; i < dinos.length; i++) {
+            if (mood == dinos[i].getHappiness()) count++;
+        }
+
+        return count;
     }
 
     /**
@@ -117,7 +169,7 @@ public class DinoCorp {
      */
     public AbstractDinosaurFactory getActiveFactory(){
         // TODO: implementation
-        return null;
+        return activeFactory < 0 ? null : factories[activeFactory];
     }
 
 }

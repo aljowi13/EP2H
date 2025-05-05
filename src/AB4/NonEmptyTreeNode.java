@@ -14,6 +14,10 @@ import AB4.Interfaces.Dinosaur;
  */
 public class NonEmptyTreeNode implements AbstractTreeNode {
     // TODO: variable declarations
+    private int key;
+    private Dinosaur value;
+    private AbstractTreeNode left;
+    private AbstractTreeNode right;
 
     /**
      * Constructs a {@code NonEmptyTreeNode} that containing a given Dinosaur object.
@@ -24,6 +28,10 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     NonEmptyTreeNode(Dinosaur animal) {
         // TODO: implementation
+        key = animal.getDNA();
+        value = animal;
+        left = EmptyTreeNode.NIL;
+        right = EmptyTreeNode.NIL;
     }
 
     /**
@@ -40,7 +48,12 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
     @Override
     public AbstractTreeNode store(Dinosaur animal) {
         // TODO: implementation
-        return null;
+        if (animal.getDNA() == key) {
+            value = animal;
+        }
+        else if (animal.getDNA() < key) left = left.store(animal);
+        else right = right.store(animal);
+        return this;
     }
 
     /**
@@ -58,7 +71,15 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
     @Override
     public AbstractTreeNode remove(int dna) {
         // TODO: implementation
-        return null;
+        if (dna == key) {
+            value = null;
+            if (left == EmptyTreeNode.NIL && right == EmptyTreeNode.NIL) {
+                return EmptyTreeNode.NIL;
+            }
+        }
+        else if (dna < key) left = left.remove(dna);
+        else right = right.remove(dna);
+        return this;
     }
 
     /**
@@ -75,7 +96,11 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
     @Override
     public Dinosaur find(int dna) {
         // TODO: implementation
-        return null;
+        if (dna == key) {
+            return value;
+        }
+        else if (dna < key) return left.find(dna);
+        else return right.find(dna);
     }
 
     /**
@@ -90,7 +115,12 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
     @Override
     public Dinosaur findByName(String name) {
         // TODO: implementation
-        return null;
+        if (value != null && name.equals(value.getName())) {
+            return value;
+        }
+        Dinosaur dino = left.findByName(name);
+        if (dino == null) dino = right.findByName(name);
+        return dino;
     }
 
     /**
@@ -107,7 +137,15 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
     @Override
     public Dinosaur[] flatten() {
         // TODO: implementation
-        return null;
+        Dinosaur[] subTree = left.flatten();
+        Dinosaur[] temp = new Dinosaur[subTree.length + 1];
+        System.arraycopy(subTree, 0, temp, 0, subTree.length);
+        temp[subTree.length] = value;
+        subTree = right.flatten();
+        Dinosaur[] result = new Dinosaur[temp.length + subTree.length];
+        System.arraycopy(temp, 0, result, 0, temp.length);
+        System.arraycopy(subTree, 0, result, temp.length, subTree.length);
+        return result;
     }
 
     // GETTERS AND SETTERS
@@ -119,7 +157,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     public int getKey() {
         // TODO: implementation
-        return 0;
+        return key;
     }
 
     /**
@@ -129,7 +167,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     public AbstractTreeNode getLeft() {
         // TODO: implementation
-        return null;
+        return left;
     }
 
     /**
@@ -139,7 +177,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     public AbstractTreeNode getRight() {
         // TODO: implementation
-        return null;
+        return right;
     }
 
     /**
@@ -150,6 +188,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     public void setLeft(AbstractTreeNode left) {
         // TODO: implementation
+        this.left = left;
     }
 
     /**
@@ -160,6 +199,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     public void setRight(AbstractTreeNode right) {
         // TODO: implementation
+        this.right = right;
     }
 
 }

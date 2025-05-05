@@ -13,6 +13,10 @@ import AB4.Interfaces.Dinosaur;
  */
 public class Edmontosaurus implements Dinosaur {
     // TODO: variable declarations
+    private int dna;
+    private String name;
+    private String species;
+    private Happiness happiness;
 
     /**
      * Constructor for the Edmontosaurus class, initializing a new instance
@@ -26,6 +30,10 @@ public class Edmontosaurus implements Dinosaur {
      */
     public Edmontosaurus(int dna, String name) {
         // TODO: implementation
+        this.dna = dna;
+        this.name = name;
+        this.species = "Edmontosaurus";
+        this.happiness = Happiness.HAPPY;
     }
 
     /**
@@ -39,7 +47,7 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public int getDNA() {
         // TODO: implementation
-        return 0;
+        return dna;
     }
 
     /**
@@ -50,7 +58,7 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public String getName() {
         // TODO: implementation
-        return null;
+        return name;
     }
 
     /**
@@ -62,7 +70,7 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public Happiness getHappiness() {
         // TODO: implementation
-        return null;
+        return happiness;
     }
 
     /**
@@ -79,7 +87,10 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public Happiness feed(Food food) {
         // TODO: implementation
-        return null;
+        if (food == Food.PLANTS) happiness = Happiness.HAPPY;
+        else happiness = (happiness == Happiness.HAPPY) ? Happiness.SAD : Happiness.ANGRY;
+
+        return happiness;
     }
 
     /**
@@ -95,7 +106,12 @@ public class Edmontosaurus implements Dinosaur {
      */
     public String toString(){
         // TODO: implementation
-        return null;
+        String result = "";
+        result += species + " ";
+        result += name + " ";
+        result += "[OK]";
+
+        return result;
     }
 
 }

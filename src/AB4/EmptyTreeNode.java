@@ -25,7 +25,7 @@ public class EmptyTreeNode implements AbstractTreeNode {
     @Override
     public AbstractTreeNode store(Dinosaur animal) {
         // TODO: implementation
-        return null;
+        return new NonEmptyTreeNode(animal);
     }
 
     /**
@@ -39,7 +39,7 @@ public class EmptyTreeNode implements AbstractTreeNode {
     @Override
     public AbstractTreeNode remove(int dna) {
         // TODO: implementation
-        return null;
+        return EmptyTreeNode.NIL;
     }
 
     /**
@@ -79,6 +79,6 @@ public class EmptyTreeNode implements AbstractTreeNode {
     @Override
     public Dinosaur[] flatten() {
         // TODO: implementation
-        return null;
+        return new Dinosaur[0];
     }
 }

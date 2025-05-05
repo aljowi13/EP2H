@@ -12,6 +12,10 @@ import AB4.Interfaces.Dinosaur;
  */
 public class TyrannosaurusRex implements Dinosaur {
     // TODO: variable declarations
+    private int dna;
+    private String name;
+    private String species;
+    private Happiness happiness;
 
     /**
      * Constructor for the TyrannosaurusRex class, initializing a new instance
@@ -25,6 +29,11 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     public TyrannosaurusRex(int dna, String name) {
         // TODO: implementation
+        this.dna = dna;
+        this.name = name;
+        this.species = "TRex";
+        this.happiness = Happiness.ANGRY;
+
     }
 
     /**
@@ -38,7 +47,7 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public int getDNA() {
         // TODO: implementation
-        return 0;
+        return dna;
     }
 
     /**
@@ -49,7 +58,7 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public String getName() {
         // TODO: implementation
-        return null;
+        return name;
     }
 
     /**
@@ -61,7 +70,7 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public Happiness getHappiness() {
         // TODO: implementation
-        return null;
+        return happiness;
     }
 
     /**
@@ -77,7 +86,8 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public Happiness feed(Food food) {
         // TODO: implementation
-        return null;
+        happiness = (food == Food.MEAT) ? Happiness.HAPPY : Happiness.ANGRY;
+        return happiness;
     }
 
     /**
@@ -96,6 +106,11 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public String toString(){
         // TODO: implementation
-        return null;
+        String result = "";
+        result += species + " ";
+        result += name + " ";
+        result += (happiness == Happiness.ANGRY) ? "[DANGER]" : "[OK]";
+
+        return result;
     }
 }
