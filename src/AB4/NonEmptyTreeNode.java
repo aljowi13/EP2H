@@ -138,9 +138,9 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
     public Dinosaur[] flatten() {
         // TODO: implementation
         Dinosaur[] subTree = left.flatten();
-        Dinosaur[] temp = new Dinosaur[subTree.length + 1];
+        Dinosaur[] temp = new Dinosaur[(value != null) ? subTree.length + 1 : subTree.length];
         System.arraycopy(subTree, 0, temp, 0, subTree.length);
-        temp[subTree.length] = value;
+        if (value != null) temp[subTree.length] = value;
         subTree = right.flatten();
         Dinosaur[] result = new Dinosaur[temp.length + subTree.length];
         System.arraycopy(temp, 0, result, 0, temp.length);

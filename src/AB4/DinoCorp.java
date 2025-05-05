@@ -106,7 +106,7 @@ public class DinoCorp {
      */
     public boolean processNextOrder(){
         // TODO: implementation
-        if (currOrder >= productionOrders.length) return false;
+        if (currOrder >= productionOrders.length || productionOrders[currOrder].isEmpty()) return false;
         String order = productionOrders[currOrder];
         currOrder++;
         if (order.charAt(0) == '#') {
