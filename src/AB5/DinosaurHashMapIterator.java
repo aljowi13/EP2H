@@ -33,7 +33,9 @@ public class DinosaurHashMapIterator {
      */
     public DinosaurHashMapIterator(BucketList[] buckets){
         // TODO: implementation
-
+        this.buckets = buckets;
+        bucketIndex = 0;
+        currentBucketIterator = buckets[bucketIndex].iterator();
     }
 
     /**
@@ -48,8 +50,14 @@ public class DinosaurHashMapIterator {
      */
     private boolean setNextNonEmptyBucket(){
         // TODO: implementation
-
-        return false;
+        bucketIndex++;
+        if (bucketIndex >= buckets.length) return false;
+        while (buckets[bucketIndex].isEmpty()) {
+            bucketIndex++;
+            if (bucketIndex >= buckets.length) return false;
+        }
+        currentBucketIterator = buckets[bucketIndex].iterator();
+        return true;
     }
 
     /**
@@ -61,8 +69,7 @@ public class DinosaurHashMapIterator {
      */
     public boolean hasNext(){
         // TODO: implementation
-
-        return false;
+        return currentBucketIterator.hasNext() || setNextNonEmptyBucket();
     }
 
     /**
@@ -76,7 +83,7 @@ public class DinosaurHashMapIterator {
      */
     public Dinosaur next(){
         // TODO: implementation
-
+        if (currentBucketIterator.hasNext()) return currentBucketIterator.next();
         return null;
     }
 }

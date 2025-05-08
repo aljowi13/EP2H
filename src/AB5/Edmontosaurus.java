@@ -28,8 +28,7 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public int hashCode() {
         // TODO: implementation
-
-        return 0;
+        return dna.hashCode();
     }
 
     /**
@@ -42,8 +41,10 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public boolean equals(Object obj) {
         // TODO: implementation
-
-        return false;
+        if (this == obj) return true;
+        if (obj == null || obj.getClass() != Edmontosaurus.class) return false ;
+        Edmontosaurus dino = (Edmontosaurus) obj;
+        return dna == dino.getDNA();
     }
 
     // DO NOT MODIFY ANY METHODS BELOW THIS LINE!

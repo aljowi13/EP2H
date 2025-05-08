@@ -27,8 +27,7 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public int hashCode() {
         // TODO: implementation
-
-        return 0;
+        return dna.hashCode();
     }
 
     /**
@@ -41,8 +40,10 @@ public class TyrannosaurusRex implements Dinosaur {
     @Override
     public boolean equals(Object obj) {
         // TODO: implementation
-
-        return false;
+        if (this == obj) return true;
+        if (obj == null || obj.getClass() != TyrannosaurusRex.class) return false ;
+        TyrannosaurusRex dino = (TyrannosaurusRex) obj;
+        return dna == dino.getDNA();
     }
 
     // DO NOT MODIFY ANY METHODS BELOW THIS LINE!

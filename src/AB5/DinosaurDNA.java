@@ -18,6 +18,7 @@ public class DinosaurDNA {
      */
     public DinosaurDNA(int geneticCode) {
         // TODO: implementation
+        this.geneticCode = geneticCode;
     }
 
     /**
@@ -27,8 +28,7 @@ public class DinosaurDNA {
      */
     public int getGeneticCode() {
         // TODO: implementation
-
-        return 0;
+        return geneticCode;
     }
 
     /**
@@ -42,8 +42,10 @@ public class DinosaurDNA {
     @Override
     public boolean equals(Object obj) {
         // TODO: implementation
-
-        return false;
+        if (this == obj) return true;
+        if (obj == null || obj.getClass() != DinosaurDNA.class) return false ;
+        DinosaurDNA dinoDNA = (DinosaurDNA) obj;
+        return geneticCode == dinoDNA.geneticCode;
     }
 
     /**
@@ -54,8 +56,7 @@ public class DinosaurDNA {
     @Override
     public int hashCode() {
         // TODO: implementation
-
-        return 0;
+        return Integer.hashCode(geneticCode);
     }
 
     /**
@@ -71,8 +72,7 @@ public class DinosaurDNA {
     @Override
     public String toString() {
         // TODO: implementation
-
-        return "";
+        return String.format("DNA: %s (%d)", Integer.toBinaryString(geneticCode), geneticCode);
     }
 
 }

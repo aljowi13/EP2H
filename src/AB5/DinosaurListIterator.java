@@ -24,7 +24,7 @@ public class DinosaurListIterator {
      */
     public DinosaurListIterator(AbstractListNode current) {
         // TODO: implementation
-
+        this.current = current;
     }
 
     /**
@@ -36,7 +36,7 @@ public class DinosaurListIterator {
     public boolean hasNext() {
         // TODO: implementation
 
-        return false;
+        return current != null;
     }
 
     /**
@@ -49,7 +49,9 @@ public class DinosaurListIterator {
      */
     public Dinosaur next() {
         // TODO: implementation
-
-        return null;
+        if (current == null) return null;
+        Dinosaur result = current.value();
+        current = current.next();
+        return result;
     }
 }

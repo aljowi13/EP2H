@@ -24,6 +24,7 @@ public class DinosaurHashMap implements HashMap {
     private int maxBucketSize;   // maximum number of dinos stored within a bucket
 
     // TODO: variable declarations (optional)
+    private int size;
 
     /**
      * Constructs a new instance of DinosaurHashMap with default capacity and default maximum bucket depth.
@@ -35,7 +36,12 @@ public class DinosaurHashMap implements HashMap {
      */
     public DinosaurHashMap() {
         // TODO: implementation
-
+        maxBucketSize = DEFAULT_MAX_BUCKET_SIZE;
+        buckets = new BucketList[DEFAULT_NUM_OF_BUCKETS];
+        size = 0;
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = new DinosaurBucketList();
+        }
     }
 
     /**
@@ -49,7 +55,12 @@ public class DinosaurHashMap implements HashMap {
      */
     public DinosaurHashMap(int capacity, int maxBucketSize) {
         // TODO: implementation
-
+        this.maxBucketSize = maxBucketSize <= 0 ? DEFAULT_MAX_BUCKET_SIZE : maxBucketSize;
+        buckets = new BucketList[capacity <= 0 ? DEFAULT_NUM_OF_BUCKETS : capacity];
+        size = 0;
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = new DinosaurBucketList();
+        }
     }
 
     /**
@@ -66,8 +77,19 @@ public class DinosaurHashMap implements HashMap {
      */
     private BucketList[] reorganizeBuckets(int newCapacity) {
         // TODO: implementation
+        BucketList[] newBuckets = new BucketList[newCapacity <= 0 ? DEFAULT_NUM_OF_BUCKETS : newCapacity];
+        for (int i = 0; i < newBuckets.length; i++) {
+            newBuckets[i] = new DinosaurBucketList();
+        }
 
-        return null;
+        DinosaurHashMapIterator iterator = iterator();
+        Dinosaur dino;
+        while (iterator.hasNext()) {
+            dino = iterator.next();
+            int bucketIndex = Math.abs(dino.getDNA().hashCode()) % buckets.length;
+            newBuckets[bucketIndex].store(dino);
+        }
+        return newBuckets;
     }
 
     /**
@@ -89,8 +111,11 @@ public class DinosaurHashMap implements HashMap {
     public Dinosaur put(Dinosaur dinosaur) {
         // TODO: implementation
         // Hint: use reorganizeBuckets() if any bucket size exceeds the maximum allowed size
-
-        return null;
+        int bucketIndex = Math.abs(dinosaur.getDNA().hashCode()) % buckets.length;
+        Dinosaur result = buckets[bucketIndex].store(dinosaur);
+        if (buckets[bucketIndex].size() > maxBucketSize) buckets = reorganizeBuckets(buckets.length * 2);
+        if (result == null) size++;
+        return result;
     }
 
     /**
@@ -104,8 +129,8 @@ public class DinosaurHashMap implements HashMap {
     @Override
     public Dinosaur get(DinosaurDNA dna) {
         // TODO: implementation
-
-        return null;
+        int bucketIndex = Math.abs(dna.hashCode()) % buckets.length;
+        return buckets[bucketIndex].find(dna);
     }
 
     /**
@@ -121,8 +146,10 @@ public class DinosaurHashMap implements HashMap {
     @Override
     public Dinosaur remove(DinosaurDNA dna) {
         // TODO: implementation
-
-        return null;
+        int bucketIndex = Math.abs(dna.hashCode()) % buckets.length;
+        Dinosaur result = buckets[bucketIndex].remove(dna);
+        if (result != null) size--;
+        return result;
     }
 
     /**
@@ -133,7 +160,10 @@ public class DinosaurHashMap implements HashMap {
     @Override
     public void clear() {
         // TODO: implementation
-
+        for (BucketList bucket : buckets) {
+            bucket.clear();
+        }
+        size = 0;
     }
 
     /**
@@ -146,7 +176,7 @@ public class DinosaurHashMap implements HashMap {
     public int size() {
         // TODO: implementation
 
-        return 0;
+        return size;
     }
 
     /**
@@ -156,6 +186,6 @@ public class DinosaurHashMap implements HashMap {
     public DinosaurHashMapIterator iterator() {
         // TODO: implementation
 
-        return null;
+        return new DinosaurHashMapIterator(buckets);
     }
 }
