@@ -36,7 +36,7 @@ public class DinosaurListIterator {
     public boolean hasNext() {
         // TODO: implementation
 
-        return current != null;
+        return current != null && current.value() != null;
     }
 
     /**

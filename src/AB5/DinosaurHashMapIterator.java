@@ -83,7 +83,7 @@ public class DinosaurHashMapIterator {
      */
     public Dinosaur next(){
         // TODO: implementation
-        if (currentBucketIterator.hasNext()) return currentBucketIterator.next();
+        if (hasNext()) return currentBucketIterator.next();
         return null;
     }
 }
