@@ -43,7 +43,7 @@ public class TyrannosaurusRex implements Dinosaur {
         if (this == obj) return true;
         if (obj == null || obj.getClass() != TyrannosaurusRex.class) return false ;
         TyrannosaurusRex dino = (TyrannosaurusRex) obj;
-        return dna == dino.getDNA();
+        return dna.equals(dino.getDNA());
     }
 
     // DO NOT MODIFY ANY METHODS BELOW THIS LINE!

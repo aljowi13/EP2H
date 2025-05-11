@@ -44,7 +44,7 @@ public class Edmontosaurus implements Dinosaur {
         if (this == obj) return true;
         if (obj == null || obj.getClass() != Edmontosaurus.class) return false ;
         Edmontosaurus dino = (Edmontosaurus) obj;
-        return dna == dino.getDNA();
+        return dna.equals(dino.getDNA());
     }
 
     // DO NOT MODIFY ANY METHODS BELOW THIS LINE!
