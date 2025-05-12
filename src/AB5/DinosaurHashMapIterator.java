@@ -50,14 +50,15 @@ public class DinosaurHashMapIterator {
      */
     private boolean setNextNonEmptyBucket(){
         // TODO: implementation
-        bucketIndex++;
-        if (bucketIndex >= buckets.length) return false;
-        while (buckets[bucketIndex].isEmpty()) {
+        boolean result = false;
+        while (bucketIndex < buckets.length - 1 && !result) {
             bucketIndex++;
-            if (bucketIndex >= buckets.length) return false;
+            currentBucketIterator = buckets[bucketIndex].iterator();
+            if (currentBucketIterator.hasNext())
+                result = true;
         }
-        currentBucketIterator = buckets[bucketIndex].iterator();
-        return true;
+
+        return result;
     }
 
     /**

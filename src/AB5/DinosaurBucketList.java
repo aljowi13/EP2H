@@ -24,7 +24,7 @@ public class DinosaurBucketList implements BucketList {
      */
     public DinosaurBucketList(){
         // TODO: implementation
-        head = new DinosaurListNode(null);
+        head = null;
         size = 0;
     }
 
@@ -43,10 +43,10 @@ public class DinosaurBucketList implements BucketList {
         AbstractListNode previous = null;
         current = head;
         while (current != null) {
-            if (current.value() != null && current.value().getDNA() == dinosaur.getDNA()) {
-                Dinosaur oldDino = current.value();
+            if (current.value().getDNA().equals(dinosaur.getDNA())) {
+                Dinosaur result = current.value();
                 current.setValue(dinosaur);
-                return oldDino;
+                return result;
             }
             previous = current;
             current = current.next();
