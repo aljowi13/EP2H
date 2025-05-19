@@ -25,6 +25,6 @@ public class FemaleSelector implements Predicate {
     public boolean test(Dinosaur dinosaur) {
         // TODO: implementation
 
-        return false;
+        return dinosaur.getBiologicalSex() == Dinosaur.Sex.FEMALE;
     }
 }

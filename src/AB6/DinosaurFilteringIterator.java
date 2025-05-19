@@ -23,6 +23,8 @@ public class DinosaurFilteringIterator {
      */
     public DinosaurFilteringIterator(AbstractListNode current, Predicate filterCriterion) {
         // TODO: implementation
+        this.current = current;
+        this.filterCriterion = filterCriterion;
 
     }
 
@@ -36,7 +38,18 @@ public class DinosaurFilteringIterator {
     public boolean hasNext() {
         // TODO: implementation
 
-        return false;
+        return (current != null && current.value() != null && filterCriterion.test(current.value())) || setNextNode();
+    }
+
+    private boolean setNextNode() {
+        if (current == null) return false;
+        boolean result = false;
+        while (current.next() != null && !result) {
+            current = current.next();
+            if (current.value() != null && filterCriterion.test(current.value()))
+                result = true;
+        }
+        return result;
     }
 
     /**
@@ -49,7 +62,11 @@ public class DinosaurFilteringIterator {
      */
     public Dinosaur next() {
         // TODO: implementation
-
+        if (hasNext()) {
+            Dinosaur result = current.value();
+            current = current.next();
+            return result;
+        }
         return null;
     }
 }

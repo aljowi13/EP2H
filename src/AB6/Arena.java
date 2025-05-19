@@ -35,6 +35,9 @@ public class Arena {
      */
     public Arena(BattleSimulation sim, DinosaurCollection fighters) {
         // TODO: implementation
+        this.sim = sim;
+        roster = buildRoster(fighters);
+        scoreSheet = new int[fighters.size()];
 
     }
 
@@ -49,8 +52,14 @@ public class Arena {
      */
     private Dinosaur[] buildRoster(DinosaurCollection fighters) {
         // TODO: implementation
+        Dinosaur[] roster = new Dinosaur[fighters.size()];
+        var dinoIterator = fighters.iterator();
+        int index = 0;
 
-        return null;
+        while (dinoIterator.hasNext() && index < roster.length) {
+            roster[index++] = dinoIterator.next();
+        }
+        return roster;
     }
 
 
@@ -71,6 +80,17 @@ public class Arena {
      */
     public void runTournament() {
         // TODO: implementation
+        if (sim == null) return;
+
+        for (int i = 0; i < roster.length; i++) {
+            for (int j = i+1; j < roster.length; j++) {
+                Dinosaur winner = sim.executeFight(roster[i], roster[j]);
+                if (winner != null) {
+                    if (winner.equals(roster[i])) scoreSheet[i]++;
+                    else scoreSheet[j]++;
+                }
+            }
+        }
     }
 
     /**
@@ -85,7 +105,6 @@ public class Arena {
      */
     public TournamentResultIterator getResultIterator() {
         // TODO: implementation
-
-        return null;
+        return new TournamentResultIterator(roster, scoreSheet);
     }
 }

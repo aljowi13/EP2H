@@ -28,7 +28,7 @@ public class ArenaFightingBehavior implements FightingBehavior {
      */
     public ArenaFightingBehavior(DinosaurDNA dna) {
         // TODO: implementation
-
+        decodeBehavior(dna.getGeneticCode() >> 4);
     }
 
     /**
@@ -45,6 +45,10 @@ public class ArenaFightingBehavior implements FightingBehavior {
     @Override
     public void decodeBehavior(int geneSequence) {
         // TODO: implementation
+        for (int i = 0; i < BATTLEPLAN_SIZE; i++) {
+            battlePlan[i] = decodeActionGene((byte)(geneSequence & 0b11));
+            geneSequence = geneSequence >> 2;
+        }
 
     }
 
@@ -61,8 +65,13 @@ public class ArenaFightingBehavior implements FightingBehavior {
     @Override
     public Action decodeActionGene(byte gene) {
         // TODO: implementation
+        return switch (gene) {
+            case 0b01 -> Action.DODGE;
+            case 0b10 -> Action.TAIL_WHIP;
+            case 0b11 -> Action.BITE;
+            default -> Action.NONE;
+        };
 
-        return null;
     }
 
     /**
@@ -76,7 +85,6 @@ public class ArenaFightingBehavior implements FightingBehavior {
     @Override
     public Action getPlannedAction(int index) {
         // TODO: implementation
-
-        return null;
+        return index >= 0 && index < BATTLEPLAN_SIZE ? battlePlan[index] : Action.NONE;
     }
 }

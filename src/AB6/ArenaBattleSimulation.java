@@ -28,8 +28,26 @@ public class ArenaBattleSimulation implements BattleSimulation {
     @Override
     public Dinosaur executeFight(Dinosaur dinoA, Dinosaur dinoB) {
         // TODO: implementation
+        if (dinoA == null) return dinoB;
+        if (dinoB == null) return dinoA;
 
-        return null;
+        int score = 0;
+
+        logFight(dinoA, dinoB);
+
+        for (int i = 0; i < ArenaFightingBehavior.BATTLEPLAN_SIZE; i++) {
+            Action actionA = dinoA.getFightingBehavior().getPlannedAction(i);
+            Action actionB = dinoB.getFightingBehavior().getPlannedAction(i);
+            int result = executeAction(actionA, actionB);
+            score += result;
+            logRound(i, actionA, actionB, result);
+        }
+
+        logResult(score, dinoA, dinoB);
+
+        if (score < 0) return dinoA;
+        else if (score > 0) return dinoB;
+        else return null;
     }
 
     /**
@@ -53,8 +71,14 @@ public class ArenaBattleSimulation implements BattleSimulation {
     @Override
     public int executeAction(Action actionA, Action actionB) {
         // TODO: implementation
-
-        return 0;
+        if (actionA == actionB) return 0;
+        if (actionA == Action.NONE) return 1;
+        if (actionB == Action.NONE) return -1;
+        return switch (actionA) {
+            case DODGE -> actionB == Action.BITE ? -1 : 1;
+            case BITE -> actionB == Action.TAIL_WHIP ? -1 : 1;
+            default -> actionB == Action.DODGE ? -1 : 1;
+        };
     }
 
     /**

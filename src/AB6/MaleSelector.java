@@ -24,7 +24,6 @@ public class MaleSelector implements Predicate {
     @Override
     public boolean test(Dinosaur dinosaur) {
         // TODO: implementation
-
-        return false;
+        return dinosaur.getBiologicalSex() == Dinosaur.Sex.MALE;
     }
 }

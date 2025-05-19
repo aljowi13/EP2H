@@ -16,7 +16,7 @@ public class MCTestAB6 {
 
                         new Choice(false, "Mergesort wird auf Arrays häufiger eingesetzt als Quicksort.                       (1A)"),
                         new Choice(false, "Hash-Tabellen werden wegen ihrer Zufallsabhängigkeit kaum verwendet.               (1B)"),
-                        new Choice(false, "Hash-Tabellen sind für geordnete Daten ungeeignet.                                 (1C)"),
+                        new Choice(true, "Hash-Tabellen sind für geordnete Daten ungeeignet.                                 (1C)"),
                         new Choice(false, "Arrays verwenden wir meist nur wo andere Datenstrukturen nicht passen.             (1D)"),
                         new Choice(false, "Arrays sind für die meisten Anwendungen zu ineffizient.                            (1E)")
                 ),
@@ -26,9 +26,9 @@ public class MCTestAB6 {
 
                         new Choice(false, "Iteratoren über Bäumen traversieren Bäume meist rekursiv.                          (2A)"),
                         new Choice(false, "Das Interface Iterator spezifiziert die Methode iterator().                        (2B)"),
-                        new Choice(false, "Eine Collection kann auch mehrere Iterator-Implementierung enthalten.              (2C)"),
+                        new Choice(true, "Eine Collection kann auch mehrere Iterator-Implementierung enthalten.              (2C)"),
                         new Choice(false, "Ein Iterator hält Kopien aller Daten der iterierten Datenstruktur.                 (2D)"),
-                        new Choice(false, "Mehrere Iteratoren auf dem gleichen Objekt stören sich nicht gegenseitig.          (2E)")
+                        new Choice(true, "Mehrere Iteratoren auf dem gleichen Objekt stören sich nicht gegenseitig.          (2E)")
                 )
 
         );

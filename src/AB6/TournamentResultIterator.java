@@ -13,7 +13,9 @@ public class TournamentResultIterator {
     private Dinosaur[] roster;
 
     // TODO: variable declarations (optional)
-
+    private boolean[] returnedDinos;
+    private int currentScore;
+    private Dinosaur nextResult;
     /**
      * Constructs a TournamentResultIterator to iterate over the tournament results.
      *
@@ -22,6 +24,11 @@ public class TournamentResultIterator {
      */
     public TournamentResultIterator(Dinosaur[] roster, int[] scoreSheet) {
         // TODO: implementation
+        this.roster = roster;
+        this.scoreSheet = scoreSheet;
+        this.currentScore = roster.length;
+        this.nextResult = null;
+        this.returnedDinos = new boolean[roster.length];
 
     }
 
@@ -37,8 +44,7 @@ public class TournamentResultIterator {
      */
     public boolean hasNext() {
         // TODO: implementation
-
-        return false;
+        return nextResult != null || setNextDino();
     }
 
     /**
@@ -60,7 +66,28 @@ public class TournamentResultIterator {
      */
     public Dinosaur next() {
         // TODO: implementation
-
+        if (hasNext()) {
+            Dinosaur result = nextResult;
+            nextResult = null;
+            return result;
+        }
         return null;
+    }
+
+    private boolean setNextDino() {
+        while (currentScore >= 0 && nextResult == null) {
+            int currRoster = 0;
+            while (currRoster < roster.length && nextResult == null) {
+                if (!returnedDinos[currRoster] && scoreSheet[currRoster] >= currentScore) {
+                    nextResult = roster[currRoster];
+                    returnedDinos[currRoster] = true;
+                }
+                currRoster++;
+            }
+            if (nextResult == null)
+                currentScore--;
+        }
+
+        return nextResult != null;
     }
 }

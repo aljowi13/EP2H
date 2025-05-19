@@ -31,8 +31,7 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public Sex getBiologicalSex() {
         // TODO: implementation
-
-        return null;
+        return (dna.getGeneticCode() & 1) == 1 ? Sex.MALE : Sex.FEMALE;
     }
 
     /**
@@ -45,8 +44,7 @@ public class Edmontosaurus implements Dinosaur {
     @Override
     public FightingBehavior getFightingBehavior() {
         // TODO: implementation
-
-        return null;
+        return new ArenaFightingBehavior(dna);
     }
 
     // DO NOT MODIFY ANY METHODS BELOW THIS LINE!
