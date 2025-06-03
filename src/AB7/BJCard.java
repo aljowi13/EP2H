@@ -1,5 +1,6 @@
 package AB7;
 
+import AB6.TyrannosaurusRex;
 import AB7.Interfaces.Card;
 
 /**
@@ -10,7 +11,8 @@ import AB7.Interfaces.Card;
  */
 public class BJCard implements Card {
     // TODO: variable declarations (optional)
-
+    private Suit suit;
+    private Value value;
     /**
      * Constructs a new BJCard object representing a playing card in the game of Blackjack.
      *
@@ -19,7 +21,8 @@ public class BJCard implements Card {
      */
     public BJCard(Suit suit, Value value) {
         // TODO: implementation
-
+        this.suit = suit;
+        this.value = value;
     }
 
     /**
@@ -31,8 +34,7 @@ public class BJCard implements Card {
     @Override
     public Suit getSuit() {
         // TODO: implementation
-
-        return null;
+        return suit;
     }
 
     /**
@@ -44,8 +46,7 @@ public class BJCard implements Card {
     @Override
     public Value getValue() {
         // TODO: implementation
-
-        return null;
+        return value;
     }
 
     /**
@@ -59,8 +60,11 @@ public class BJCard implements Card {
     @Override
     public int getScore() {
         // TODO: implementation
-
-        return 0;
+        return switch (value) {
+            case JACK, QUEEN, KING -> 10;
+            case ACE -> 11;
+            default -> value.ordinal() - Value.TWO.ordinal() + 2;
+        };
     }
 
     /**
@@ -73,8 +77,25 @@ public class BJCard implements Card {
     @Override
     public String toString() {
         // TODO: implementation
+        String value = switch (this.value) {
+            case JACK -> "J";
+            case QUEEN -> "Q";
+            case KING -> "K";
+            case ACE -> "A";
+            default -> String.valueOf(this.value.ordinal() - Value.TWO.ordinal() + 2);
+        };
 
-        return null;
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_BLACK = "\u001B[30m";
+        String ANSI_RESET = "\u001B[0m";
+        String suit = switch (this.suit) {
+            case HEARTS -> ANSI_RED + "\u2665" + ANSI_RESET;   // ♥ in rot
+            case DIAMONDS -> ANSI_RED + "\u2666" + ANSI_RESET;   // ♦ in rot
+            case SPADES -> ANSI_BLACK + "\u2660" + ANSI_RESET; // ♠ in schwarz/grau
+            default -> ANSI_BLACK + "\u2663" + ANSI_RESET; // ♣ in schwarz/grau
+        };
+
+        return String.format("%s %s (%d)", value, suit, this.getScore());
     }
 
     /**
@@ -86,9 +107,11 @@ public class BJCard implements Card {
      */
     @Override
     public boolean equals(Object obj) {
-        // TODO: implementation
-
-        return false;
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (obj.getClass() != this.getClass()) return false;
+        BJCard that = (BJCard) obj;
+        return suit == that.getSuit() && value == that.getValue();
     }
 
 }

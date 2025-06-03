@@ -12,10 +12,10 @@ import AB7.Interfaces.Hand;
  */
 public class BJPlayer {
     // TODO: uncomment this declaration. Do not alter its signature!
-    // private final Hand hand;        // the hand of cards the player uses in all his games of Blackjack
+    private final Hand hand;        // the hand of cards the player uses in all his games of Blackjack
 
     // TODO: uncomment this declaration. Do not alter its signature!
-    // private final Dealer dealer;    // the dealer responsible for managing the deck and dealing cards
+    private final Dealer dealer;    // the dealer responsible for managing the deck and dealing cards
 
     // TODO: variable declarations (optional)
 
@@ -28,7 +28,8 @@ public class BJPlayer {
      */
     public BJPlayer(Hand hand, Dealer dealer) {
         // TODO: implementation
-
+        this.hand = hand;
+        this.dealer = dealer;
     }
 
     /**
@@ -42,8 +43,11 @@ public class BJPlayer {
      */
     public Hand startGame() throws IllegalOperationException, BadDeckException {
         // TODO: implementation
-
-        return null;
+        hand.clear();
+        for (int i = 0; i < 2; i++) {
+            hand.addCard(dealer.dealCard());
+        }
+        return hand.clone();
     }
 
     /**
@@ -57,8 +61,12 @@ public class BJPlayer {
      */
     public Hand hit() throws BadDeckException {
         // TODO: implementation
-
-        return null;
+        try {
+            hand.addCard(dealer.dealCard());
+        } catch (IllegalOperationException e) {
+            System.err.println(e.getMessage());
+        }
+        return hand.clone();
     }
 
     /**
@@ -68,7 +76,6 @@ public class BJPlayer {
      */
     public int getScore() {
         // TODO: implementation
-
-        return 0;
+        return hand.getScore();
     }
 }

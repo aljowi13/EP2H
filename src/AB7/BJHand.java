@@ -4,6 +4,7 @@ import AB7.Interfaces.Card;
 import AB7.Interfaces.Hand;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents a hand of cards in a game of Blackjack.
@@ -24,7 +25,7 @@ public class BJHand implements Hand {
      */
     public BJHand() {
         // TODO: implementation
-
+        cards = new ArrayList<>();
     }
 
     /**
@@ -36,8 +37,7 @@ public class BJHand implements Hand {
      */
     private boolean isBlackJack() {
         // TODO: implementation
-
-        return false;
+        return getScore() == 100;
     }
 
     /**
@@ -53,8 +53,11 @@ public class BJHand implements Hand {
     @Override
     public int addCard(Card card) throws IllegalOperationException {
         // TODO: implementation
-
-        return 0;
+        int score = getScore();
+        if (score == 100) throw new IllegalOperationException("Can't add card to a Black Jack hand.");
+        else if (score == 0 && !cards.isEmpty()) throw new IllegalOperationException("Can't add card to a busted hand");
+        cards.add(card);
+        return getScore();
     }
 
     /**
@@ -74,8 +77,19 @@ public class BJHand implements Hand {
     @Override
     public int getScore() {
         // TODO: implementation
-
-        return 0;
+        int scoreWithoutAces = this.cards.stream()
+                .filter(card -> card.getValue() != Card.Value.ACE)
+                .mapToInt(Card::getScore)
+                .sum();
+        int aceCount = (int) this.cards.stream()
+                .filter(card -> card.getValue() == Card.Value.ACE)
+                .count();
+        int score = scoreWithoutAces + aceCount;
+        if (score > 21) return 0; // busted
+        if (aceCount > 0 && score <= 11) {
+            score += 10;
+        }
+        return this.cards.size() == 2 && score == 21 ? 100 : score;
     }
 
     /**
@@ -87,7 +101,7 @@ public class BJHand implements Hand {
     @Override
     public void clear() {
         // TODO: implementation
-
+        cards.clear();
     }
 
     /**
@@ -99,8 +113,11 @@ public class BJHand implements Hand {
     @Override
     public Hand clone() {
         // TODO: implementation
-
-        return null;
+        BJHand newHand = new BJHand();
+        newHand.cards = this.cards.stream()
+                .map(card -> new BJCard(card.getSuit(), card.getValue()))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return newHand;
     }
 
     /**
@@ -111,7 +128,6 @@ public class BJHand implements Hand {
     @Override
     public String toString() {
         // TODO: implementation
-
-        return null;
+        return cards.toString();
     }
 }

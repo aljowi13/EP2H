@@ -18,6 +18,6 @@ public class BadDeckException extends RuntimeException {
      */
     public BadDeckException(String message, Throwable cause) {
         // TODO: implementation
-
+        super(message, cause);
     }
 }

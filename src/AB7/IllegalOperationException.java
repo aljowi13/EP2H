@@ -18,6 +18,6 @@ public class IllegalOperationException extends RuntimeException {
      */
     public IllegalOperationException(String message) {
         // TODO: implementation
-
+        super(message);
     }
 }

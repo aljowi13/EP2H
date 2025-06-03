@@ -20,6 +20,6 @@ public class OutOfCardsException extends Exception {
      */
     public OutOfCardsException(String message) {
         // TODO: implementation
-
+        super(message);
     }
 }

@@ -15,7 +15,7 @@ import AB7.Interfaces.Hand;
  */
 public class BJDealer implements Dealer {
     // TODO: uncomment this declaration. Do not alter its signature!
-    // private final Deck deck;  // the deck of cards the dealer operates with
+    private final Deck deck;  // the deck of cards the dealer operates with
 
     // TODO: variable declarations (optional)
 
@@ -28,6 +28,8 @@ public class BJDealer implements Dealer {
      */
     public BJDealer(Deck deck) {
         // TODO: implementation
+        this.deck = deck;
+        shuffleDeck();
 
     }
 
@@ -41,8 +43,15 @@ public class BJDealer implements Dealer {
     @Override
     public Card dealCard() throws BadDeckException {
         // TODO: implementation
-
-        return null;
+        try {
+            return deck.drawCard();
+        } catch (OutOfCardsException ignore) {}
+        shuffleDeck();
+        try {
+            return deck.drawCard();
+        } catch (OutOfCardsException e) {
+            throw new BadDeckException("Can't deal card from an empty deck.", e);
+        }
     }
 
     /**
@@ -51,7 +60,7 @@ public class BJDealer implements Dealer {
     @Override
     public void shuffleDeck() {
         // TODO: implementation
-
+        deck.shuffle();
     }
 
     /**
@@ -80,8 +89,9 @@ public class BJDealer implements Dealer {
     @Override
     public int playAction(Hand dealerHand) throws BadDeckException {
         // TODO: implementation
-
-        return 0;
+        int score = dealerHand.getScore();
+        while (score != 0 && score <= 16) score = dealerHand.addCard(this.dealCard());
+        return score;
     }
 
 }
