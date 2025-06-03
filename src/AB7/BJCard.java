@@ -114,4 +114,13 @@ public class BJCard implements Card {
         return suit == that.getSuit() && value == that.getValue();
     }
 
+    /*
+    "Allerdings wäre es ein schwerer Fehler, wenn Sie nur equals überschreiben und hashCode unverändert lassen..."
+    https://tuwel.tuwien.ac.at/mod/forum/discuss.php?d=499037
+     */
+    @Override
+    public int hashCode() {
+        return value.ordinal() + suit.ordinal() * 20;
+    }
+
 }
